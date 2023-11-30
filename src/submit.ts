@@ -37,7 +37,7 @@ export class ClickSubmit extends BaseComponent {
       store.createIndex("done", "done", { unique: false });
     };
   }
-  checkExistDB() {
+  checkandDeleteExistDB() {
     const request = window.indexedDB.open("DayRecord");
     request.onsuccess = () => {
       let db = request.result;
@@ -51,7 +51,7 @@ export class ClickSubmit extends BaseComponent {
     };
   }
   saveToDB() {
-    this.checkExistDB();
+    this.checkandDeleteExistDB();
     const request = window.indexedDB.open("DayRecord");
     request.onsuccess = () => {
       let db = request.result;
