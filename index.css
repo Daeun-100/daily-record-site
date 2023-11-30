@@ -28,12 +28,18 @@ h3 {
   display: grid;
   background-color: aqua;
   grid-template-areas:
-    "month month month month month month month"
+    "passedBtn month month month month month nextBtn"
     " week  week  week  week  week  week  week"
     "date date date date date date date"
     "date date date date date date date"
     "date date date date date date date"
     "date date date date date date date";
+}
+#passed-btn {
+  grid-area: passedBtn;
+}
+#next-btn {
+  grid-area: nextBtn;
 }
 #month {
   grid-area: month;

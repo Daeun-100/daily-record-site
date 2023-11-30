@@ -6,20 +6,10 @@ import { Calendar } from "./main-calendar.js";
 import { ClickSubmit } from "./submit.js";
 
 class Site extends BaseComponent {
+  private pageMonth?: number;
+
   constructor() {
     super();
-    const calendar = new Calendar();
-    this.submitClick(() => {
-      this.goToCalendar();
-    });
-    this.goToCalendar();
-    this.addTextra();
-    const addBtn = document.getElementById("plus-button")! as HTMLElement;
-    addBtn.addEventListener("click", () => {
-      this.addTextra();
-    });
-  }
-  goToCalendar() {
     const calendar = new Calendar();
     const inputcon = document.getElementById("record-input-container");
     const submitBtn = document.getElementById("submit-button");
@@ -29,11 +19,47 @@ class Site extends BaseComponent {
       () => {
         inputcon?.remove();
         submitBtn?.remove();
-        calendar.calendarForming();
+        calendar.thisMonthCalendarForming();
       },
       { once: true }
     );
+    calendar.setPassedBrnClick(() => {
+      if (document.getElementById("month")?.textContent === "1") {
+        return;
+      }
+      const date = new Date();
+      const month = this.getLastMonth();
+      const start = new Date(date.getFullYear(), month - 1, 1);
+      const startday = start.getDay();
+      const container = document.getElementById("calendar-container");
+      container!.remove();
+      calendar.resetCalenderHTMl();
+      calendar.CalendarForming(month, startday);
+    });
+    calendar.setNextBrnClick(() => {
+      if (document.getElementById("month")?.textContent === "12") {
+        return;
+      }
+      const date = new Date();
+      const month = this.getNextMonth();
+      const start = new Date(date.getFullYear(), month - 1, 1);
+      const startday = start.getDay();
+      const container = document.getElementById("calendar-container");
+      container!.remove();
+      calendar.resetCalenderHTMl();
+      calendar.CalendarForming(month, startday);
+    });
+    this.submitClick(() => {
+      calendar.thisMonthCalendarForming();
+    });
+
+    this.addTextra();
+    const addBtn = document.getElementById("plus-button")! as HTMLElement;
+    addBtn.addEventListener("click", () => {
+      this.addTextra();
+    });
   }
+
   addTextra() {
     const inputContainer = new Inputcontainer();
     inputContainer.setCloseBtnListner(() => {
@@ -65,6 +91,24 @@ class Site extends BaseComponent {
       submitBtn?.remove();
       callback();
     });
+  }
+  getLastMonth() {
+    const thisMonthHtml = document.getElementById("month")! as HTMLElement;
+
+    this.pageMonth = parseInt(thisMonthHtml.textContent!);
+    // console.log(this.pageMonth);
+    return this.pageMonth - 1;
+    //지난달 구하는 함수 만들어야함.....흐학 확장성을 고려해야한다는게 이런거구나
+    // calendar.CalendarForming(thisMonth - 1);
+  }
+  getNextMonth() {
+    const thisMonthHtml = document.getElementById("month")! as HTMLElement;
+
+    this.pageMonth = parseInt(thisMonthHtml.textContent!);
+    // console.log(this.pageMonth);
+    return this.pageMonth + 1;
+    //지난달 구하는 함수 만들어야함.....흐학 확장성을 고려해야한다는게 이런거구나
+    // calendar.CalendarForming(thisMonth - 1);
   }
 }
 const site = new Site();
