@@ -12,7 +12,7 @@ export class Inputcontainer extends BaseComponent {
             deletBtn.style.opacity = "100%";
         });
         deletBtn.addEventListener("mouseleave", () => {
-            deletBtn.style.opacity = "20%";
+            deletBtn.style.opacity = "30%";
         });
         const inputContainer = document.createElement("div");
         inputContainer.id = "input-container";
