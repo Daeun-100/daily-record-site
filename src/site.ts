@@ -10,13 +10,29 @@ class Site extends BaseComponent {
     super();
     const calendar = new Calendar();
     this.submitClick(() => {
-      calendar.calendarForming();
+      this.goToCalendar();
     });
+    this.goToCalendar();
     this.addTextra();
     const addBtn = document.getElementById("plus-button")! as HTMLElement;
     addBtn.addEventListener("click", () => {
       this.addTextra();
     });
+  }
+  goToCalendar() {
+    const calendar = new Calendar();
+    const inputcon = document.getElementById("record-input-container");
+    const submitBtn = document.getElementById("submit-button");
+    const head = document.getElementById("head")! as HTMLElement;
+    head.addEventListener(
+      "click",
+      () => {
+        inputcon?.remove();
+        submitBtn?.remove();
+        calendar.calendarForming();
+      },
+      { once: true }
+    );
   }
   addTextra() {
     const inputContainer = new Inputcontainer();
