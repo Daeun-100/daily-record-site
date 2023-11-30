@@ -37,7 +37,21 @@ export class ClickSubmit extends BaseComponent {
       store.createIndex("done", "done", { unique: false });
     };
   }
+  checkExistDB() {
+    const request = window.indexedDB.open("DayRecord");
+    request.onsuccess = () => {
+      let db = request.result;
+      let transaction = db.transaction(["record"], "readwrite");
+      let objStore = transaction.objectStore("record");
+      let date = new Date();
+      let year = date.getFullYear();
+      let month = date.getMonth() + 1;
+      let todate = date.getDate();
+      objStore.delete(`${year}` + `${month}` + `${todate}`);
+    };
+  }
   saveToDB() {
+    this.checkExistDB();
     const request = window.indexedDB.open("DayRecord");
     request.onsuccess = () => {
       let db = request.result;
