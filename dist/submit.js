@@ -57,7 +57,8 @@ export class ClickSubmit extends BaseComponent {
             let date = new Date();
             let year = date.getFullYear();
             let month = date.getMonth() + 1;
-            let todate = date.getDate();
+            let todateE = date.getDate();
+            let todate = todateE < 10 ? "0" + todateE : todateE;
             objStore.add({
                 done: this.doneList,
                 dateID: `${year}` + `${month}` + `${todate}`,

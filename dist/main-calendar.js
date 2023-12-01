@@ -7,6 +7,10 @@ export class Calendar extends BaseComponent {
         this.dateContainer = document.createElement("div");
         this.getDate();
     }
+    resetCalenderHTMl() {
+        this.calendarcontainer = document.createElement("div");
+        this.dateContainer = document.createElement("div");
+    }
     getDate() {
         const date = new Date(); //Date Api로 월,일 구하는 함수 만들면 되겠다
         this.thisMonth = date.getMonth() + 1;
@@ -31,31 +35,48 @@ export class Calendar extends BaseComponent {
             this.attachScreen(dd, weekContainer);
         });
     }
-    datedummy() {
-        let number = this.startday;
-        while (number >= 1) {
+    datedummy(start) {
+        start;
+        while (start >= 1) {
             const dummy = document.createElement("div");
             dummy.id = "datedummy";
             this.attachScreen(dummy, this.dateContainer);
             console.log("더미");
-            number -= 1;
+            start -= 1;
         }
     }
-    calendarForming() {
+    CalendarForming(m = this.thisMonth, start = this.startday) {
+        const date = new Date();
+        //지난년도 달력은 보여주지 말자....타협
+        const end = new Date(date.getFullYear(), m, 0);
+        this.endDate = end.getDate();
         this.dateContainer.id = "date-container";
         this.calendarcontainer.id = "calendar-container";
-        const month = this.tnToHtml(this.thisMonth, "div");
+        const month = this.tnToHtml(m, "div");
         month.id = "month";
+        const passedBtn = this.tnToHtml("<", "span");
+        const nextBtn = this.tnToHtml(">", "span");
+        passedBtn.addEventListener("click", () => {
+            this.passedBtnClick && this.passedBtnClick();
+        });
+        nextBtn.addEventListener("click", () => {
+            this.nextBtnClick && this.nextBtnClick();
+        });
+        passedBtn.id = "passed-btn";
+        nextBtn.id = "next-btn";
         this.attachScreen(this.calendarcontainer, document.getElementById("page-container"));
         this.attachScreen(month, this.calendarcontainer); //month붙이기
+        this.attachScreen(passedBtn, this.calendarcontainer); //passed붙이기
+        this.attachScreen(nextBtn, this.calendarcontainer); //passed붙이기
         this.weekSet();
-        this.datedummy();
+        this.datedummy(start);
         this.attachScreen(this.dateContainer, this.calendarcontainer);
         for (let i = 1; i <= this.endDate; i++) {
+            //enddate고쳐야함
             //date 붙이기
             const a = this.tnToHtml(i, "div");
             a.className = "date";
-            a.id = `${i}`;
+            a.id = i < 10 ? "0" + `${i}` : `${i}`;
             let key = this.getDateID(a.id);
             this.returnDonelist(key, () => {
                 a.style.backgroundColor = "pink";
@@ -76,9 +97,14 @@ export class Calendar extends BaseComponent {
             this.attachScreen(a, this.dateContainer);
         }
     }
+    thisMonthCalendarForming() {
+        this.CalendarForming();
+    }
     getDateID(clickdate) {
+        var _a, _b;
         let year = this.year;
-        let month = this.thisMonth;
+        let month = (_b = (_a = document.getElementById("month")) === null || _a === void 0 ? void 0 : _a.textContent) !== null && _b !== void 0 ? _b : this.thisMonth;
+        // console.log(month);
         let keyNumber = `${year}` + `${month}` + `${clickdate}`;
         return keyNumber;
     }
@@ -117,6 +143,12 @@ export class Calendar extends BaseComponent {
                 this.attachScreen(sectioncon, document.body);
             });
         }
+    }
+    setPassedBrnClick(listner) {
+        this.passedBtnClick = listner;
+    }
+    setNextBrnClick(listner) {
+        this.nextBtnClick = listner;
     }
     removeDoneSection() {
         const sectioncon = document.getElementById("done-container");

@@ -10,6 +10,7 @@ body {
   background-attachment: fixed;
 }
 h3 {
+  color: rgba(253, 183, 53, 0.911);
   text-align: center;
   font-size: 50px;
   letter-spacing: 5px;
@@ -26,7 +27,8 @@ h3 {
   width: 500px;
   height: 300px;
   display: grid;
-  background-color: aqua;
+  /* background-color: aqua; */
+  text-align: center;
   grid-template-areas:
     "passedBtn month month month month month nextBtn"
     " week  week  week  week  week  week  week"
@@ -63,6 +65,22 @@ h3 {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+#done-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: 20px;
+  /* border: solid; */
+  /* border-color: rgba(0, 0, 255, 0.185); */
+  /* width: 500px; */
+}
+.done {
+  /* margin: 10px; */
+  padding: 8px;
+  width: 500px;
+  text-align: center;
 }
 #circle-container {
   position: fixed;

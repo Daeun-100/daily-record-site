@@ -93,7 +93,7 @@ export class Calendar extends BaseComponent {
       //date 붙이기
       const a = this.tnToHtml(i, "div");
       a.className = "date";
-      a.id = `${i}`;
+      a.id = i < 10 ? "0" + `${i}` : `${i}`;
       let key = this.getDateID(a.id);
       this.returnDonelist(
         key,
@@ -132,7 +132,6 @@ export class Calendar extends BaseComponent {
     let year = this.year;
     let month = document.getElementById("month")?.textContent ?? this.thisMonth;
     // console.log(month);
-
     let keyNumber = `${year}` + `${month}` + `${clickdate}`;
 
     return keyNumber;
